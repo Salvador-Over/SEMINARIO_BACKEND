@@ -1,0 +1,180 @@
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url(https://i.postimg.cc/NFpZhbx3/Hikvision-Parking-Guidance-banner.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+
+
+#credits {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  color: white;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+}
+
+.container {
+  width: 420px;
+  background-color: rgba(30, 42, 56, 0.95); /* Gris azulado sólido */
+  border-radius: 10px;
+  padding: 30px 40px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+
+.container h1,
+header {
+  font-size: 36px;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+span {
+  color: #fff;
+  font-size: small;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.input-field,
+.input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.input,
+.input-box input,
+.input-box select {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  font-size: 16px;
+  color: #fff;
+  padding: 0 0 0 42px;
+  outline: none;
+  border: none;
+}
+
+.input-box input::placeholder,
+.input::placeholder {
+  color: #fff;
+}
+
+/* Personalización del SELECT */
+.input-box select {
+  background: rgba(0, 0, 0, 0.5);
+  color: #00ffcc;
+  appearance: none;
+}
+
+.input-box select:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.input-box select option {
+  background-color: #00323d;
+  color: #00ffcc;
+}
+
+.input-box i,
+.input-field i {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 20px;
+}
+
+.submit,
+.btn {
+  width: 100%;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit:hover,
+.btn:hover {
+  box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
+}
+
+.bottom,
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14.5px;
+  margin: 10px 0 15px 0;
+  color: #fff;
+}
+
+.remember-forgot label input,
+.left input {
+  margin-right: 5px;
+}
+
+.remember-forgot a,
+.right a,
+label a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.remember-forgot a:hover,
+label a:hover {
+  text-decoration: underline;
+}
+
+.register-link {
+  font-size: 19px;
+  text-align: center;
+  margin: 20px 0 0px;
+}
+
+.register-link p a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link p a:hover {
+  text-decoration: underline;
+}

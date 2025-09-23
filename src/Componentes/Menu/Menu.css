@@ -1,0 +1,231 @@
+/* Contenedor principal que centra */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  position: relative;
+  padding-left: 87px; /* espacio para el mensaje */
+}
+
+/* Mensaje de bienvenida */
+.welcome-floating {
+  position: absolute;
+  top: 28px;  /*eje y*/
+  left: 26px; /*eje x*/
+  display: flex;
+  align-items: center;
+  gap: 6px; /* espacio entre icono y texto reducido */
+  background: rgba(43, 62, 80, 0.4); /* Azul semi-transparente */
+  color: #fff;
+  font-size: 0.85rem; /* texto más pequeño */
+  font-weight: 600;
+  padding: 6px 12px; /* contenedor más compacto */
+  border-radius: 6px; /* borde más pequeño */
+  border-left: 3px solid #2196f3;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  z-index: 1000;
+  overflow: hidden; /* necesario para la animación */
+}
+
+/* Icono dentro del contenedor */
+.welcome-icon {
+  color: #2196f3;
+}
+
+/* Línea azul de escaneo horizontal */
+.welcome-floating::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 4px; /* línea delgada */
+  background: linear-gradient(to right, transparent, rgba(33, 150, 243, 0.5), transparent); /* azul suave */
+  animation: scan-horizontal 5s linear infinite; /* más lenta */
+}
+
+@keyframes scan-horizontal {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 0%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.welcome-icon {
+  font-size: 1.3rem;
+  color: #2196f3;
+}
+
+/* Fecha y Hora */
+.datetime-floating {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(43, 62, 80, 0.4);
+  color: #fff;
+  font-size: 1.4rem;/*Tamaño de la F y H*/
+  font-weight: 900;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border-right: 3px solid #2196f3; /* línea verde a la derecha */
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  z-index: 1000;
+  overflow: hidden; /* importante para que la animación quede contenida */
+}
+
+/* Línea azul de escaneo dentro del contenedor */
+.datetime-floating::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0; /* inicia desde el borde izquierdo del contenedor */
+  width: 100%; /* igual que el contenedor */
+  height: 4px;
+  background: linear-gradient(to right, transparent, rgba(33, 150, 243, 0.5), transparent);
+  animation: scan-horizontal 5s linear infinite; /* animacion lenta */
+}
+
+@keyframes scan-horizontal-datetime {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+
+/* Caja del menú */
+.menu-container {
+  padding: 30px;
+  background: rgba(43, 62, 80, 0.7); /* Azul con transparencia del 80% */
+  border-radius: 25px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.7);
+  text-align: center;
+  max-width: 1000px;
+  width: 86%;
+  margin: 20px auto;
+  transform: translate(10px, -14px); /* Ajusta la posición horizontal */
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.menu-title {
+  font-size: 1.6rem;
+  margin: 0;
+  color: #fff;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.logout-button {
+  display: flex;
+  align-items: end; /* Alinea el icono con el texto */
+  gap: 4px;
+  background-color: #b22819cf;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.logout-button span {
+  line-height: 0; /* elimina espacio extra del texto */
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+  /*transform: translateY(-2px);*/
+}
+
+.logout-button svg {
+  font-size: 1rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(152px, 4px));
+  gap: 15px;
+  justify-content: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.menu-card {
+  width: 150px;  /*Ancho*/
+  height: 130px; /*Alto*/
+  background-color: #3a3a5d;
+  color: #0b0b0b;
+  padding: 20px 10px;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.menu-card:hover {
+  /*transform: translateY(-6px);*/
+  transform: scale(1.12); /* zoom */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.menu-icon {
+  font-size: 2.5rem;
+  margin-bottom: 4px;/*8px*/
+}
+
+.menu-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Mini reloj estilo ícono */
+.mini-clock {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  border: 2px solid #2196f3;    /* Color de borde*/
+  border-radius: 50%;
+  margin-right: 0px;
+  background-color: rgba(43, 62, 80, 0.4);
+}
+
+.mini-clock .hand {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 2px;
+  background: #2196f3;         /* color de manecillas */
+  transform-origin: 0% 50%;
+}
+
+.mini-clock .hand.second {
+  background: #fc4300;         /* segundero rojo */
+  height: 2px;
+}

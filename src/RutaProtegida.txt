@@ -1,0 +1,30 @@
+
+El archivo ProtectedRoute.js o RutaProtegida
+es un componente de React que sirve para proteger rutas que solo deberían ser accesibles 
+si el usuario ha iniciado sesión correctamente.
+
+const token = localStorage.getItem("token"); Esta instrucción revisa si existe el token
+return token ? children : <Navigate to="/" replace />; Si no hay token, redirige al login
+
+En si su funcionamiento es:
+1. Verificar si existe un token en localStorage
+2. En caso que si existe, renderiza el componente que se envuelve por ejemplo <Navbar /> para /menu
+3. En caso que no existe, redirige automaticamente al login "/"
+
+-----------------------------------------------------------------------------------------------------
+
+Se creo el archivo .env en el Backend para colocar la SECRET_KEY que es la clave secreta, para evitar colocar como tal 
+la clave secreta en el archivo server.js como se avia colocado anteriormente y en el archivo server.js se coloco la 
+instrucción require('dotenv').config(); para cargar las variables de entorno, asi mismo se agrego la instrucción 
+const SECRET_KEY = process.env.SECRET_KEY; para obetener la clave secreta que se encutra en el archivo .env esto para firmar 
+los tokens
+
+
+---No-----
+En el archivo server.js en la linea 27 se coloco una clave secreta para firmar tokens
+SECRET_KEY es la clave secreta que usa el servidor para firmar el token, esto garantiza que nadie pueda falsificar un token,
+porque para generarlo correctamente necesitamos conocer la clave secreta.
+Esto tambien sirve cuando se quiere Verificar el token más adelante.
+---No-----
+
+
