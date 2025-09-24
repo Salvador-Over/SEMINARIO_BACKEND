@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs'); // 🔹 Para cifrar contraseñas
 
 const SECRET_KEY = "tu_clave_secreta"; // puedes dejarla aquí fijo si no usas .env
 
@@ -113,6 +114,44 @@ app.get('/vehiculos/activos', (req, res) => {
     if (err) {
       console.error('Error al obtener vehículos activos:', err);
       return res.status(500).json({ mensaje: 'Error al obtener vehículos activos' });
+    }
+    res.json(results);
+  });
+});
+
+
+// ================================
+// RUTAS PARA USUARIOS
+// ================================
+
+// Crear usuario
+app.post('/api/usuarios', (req, res) => {
+  const { usuario, contrasena, rol } = req.body;
+
+  if (!usuario || !contrasena || !rol) {
+    return res.status(400).json({ mensaje: "Faltan datos" });
+  }
+
+  // Cifrar contraseña antes de guardar
+  const hashedPassword = bcrypt.hashSync(contrasena, 10);
+
+  const query = "INSERT INTO usuarios (usuario, contrasena, rol) VALUES (?, ?, ?)";
+  connection.query(query, [usuario, hashedPassword, rol], (err, results) => {
+    if (err) {
+      console.error("❌ Error al registrar usuario:", err);
+      return res.status(500).json({ mensaje: "Error al registrar usuario" });
+    }
+    res.json({ mensaje: "✅ Usuario registrado correctamente", id: results.insertId });
+  });
+});
+
+// Obtener usuarios
+app.get('/api/usuarios', (req, res) => {
+  const query = "SELECT id, usuario, rol FROM usuarios ORDER BY id DESC";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("❌ Error al obtener usuarios:", err);
+      return res.status(500).json({ mensaje: "Error al obtener usuarios" });
     }
     res.json(results);
   });
