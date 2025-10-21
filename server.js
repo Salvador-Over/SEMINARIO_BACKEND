@@ -12,13 +12,13 @@ app.use(express.json());
 
 // 🔹 Configuración de conexión a Azure MySQL
 const connection = mysql.createConnection({
-  host: "seminario.mysql.database.azure.com", // ejemplo: mydbserver.mysql.database.azure.com
-  user: "administradorseminario",              // ejemplo: adminuser@mydbserver
-  password: "Seminario123",
-  database: "seminario",
-  port: 3306,
+  host: "centerbeam.proxy.rlwy.net", // ejemplo: mydbserver.mysql.database.azure.com
+  user: "root",              // ejemplo: adminuser@mydbserver
+  password: "dttnjZnyHedLgLBFMcOPlknTDrSsFAUA",
+  database: "railway",
+  port: 33366,
   ssl: {
-    rejectUnauthorized: true // Azure requiere SSL para conexiones seguras
+    rejectUnauthorized: false // Azure requiere SSL para conexiones seguras
   }
 });
 
@@ -27,7 +27,7 @@ connection.connect((err) => {
     console.error("❌ Error de conexión a Azure:", err);
     return;
   }
-  console.log("✅ Conexión exitosa a Azure MySQL");
+  console.log("✅ Conexión exitosa a RAILWAY MYSQL");
 });
 
 // Ruta para el login
@@ -84,21 +84,21 @@ app.post("/vehiculos", (req, res) => {
   const { placa, marca, color, tipo, codigo_barra } = req.body;
 
   const query = `
-    INSERT INTO vehiculos (placa, codigo_barra, marca, color, tipo)
-    VALUES (?, ?, ?, ?, ?)
-  `;
+  INSERT INTO vehiculos (placa, codigo_barra, marca, color, tipo, estado)
+  VALUES (?, ?, ?, ?, ?, ?)
+`;
 
-  connection.query(query, [placa, codigo_barra, marca, color, tipo], (err, results) => {
-    if (err) {
-      console.error("❌ Error al registrar vehículo:", err);
-      return res.status(500).json({ message: "Error al registrar el vehículo" });
-    }
+connection.query(query, [placa, codigo_barra, marca, color, tipo, 'Activo'], (err, results) => {
+  if (err) {
+    console.error("❌ Error al registrar vehículo:", err);
+    return res.status(500).json({ message: "Error al registrar el vehículo" });
+  }
 
-    res.status(201).json({ 
-      message: "✅ Vehículo registrado con éxito", 
-      id: results.insertId 
-    });
+  res.status(201).json({ 
+    message: "✅ Vehículo registrado con éxito", 
+    id: results.insertId 
   });
+});
 });
 
 
@@ -375,7 +375,7 @@ app.post('/api/vehiculos/salida', (req, res) => {
     if (index >= estadosPosibles.length) {
       // Si ningún estado funciona, solo actualizar la hora_salida
       console.log('⚠️ No se pudo cambiar estado, solo actualizando hora_salida');
-      const querySimple = `UPDATE vehiculos SET hora_salida = NOW() WHERE id = ? AND estado = 'Activo'`;
+      const querySimple =  "UPDATE vehiculos SET hora_salida = NOW() WHERE codigo_barra = ? AND estado = 'Activo'";
       
       connection.query(querySimple, [ticketId], (err, results) => {
         if (err) {
@@ -481,6 +481,47 @@ app.get('/api/usuarios', (req, res) => {
     res.json(results);
   });
 });
+
+
+// ✅ Buscar ticket por código de barras
+app.get('/api/ticket/barcode/:codigo', (req, res) => {
+  const { codigo } = req.params;
+
+  const query = `
+    SELECT id, placa, marca, color, tipo,
+           CONVERT_TZ(hora_ingreso, '+00:00', @@session.time_zone) as hora_ingreso_local,
+           hora_ingreso
+    FROM vehiculos
+    WHERE codigo_barra = ? AND estado = 'Activo'
+    LIMIT 1
+  `;
+
+  connection.query(query, [codigo], (err, results) => {
+    if (err) {
+      console.error('❌ Error al buscar por código de barras:', err);
+      return res.status(500).json({ mensaje: 'Error del servidor' });
+    }
+
+    if (results.length > 0) {
+      const vehiculo = results[0];
+      const horaEntrada = vehiculo.hora_ingreso_local || vehiculo.hora_ingreso;
+
+      res.json({
+        success: true,
+        ticketId: vehiculo.id,
+        placa: vehiculo.placa,
+        horaEntrada,
+        vehiculo
+      });
+    } else {
+      res.status(404).json({ success: false, mensaje: 'Vehículo no encontrado con ese código de barras' });
+    }
+  });
+});
+
+
+
+
 
 // 🆕 NUEVA RUTA: Obtener registros para reportes
 app.get('/api/registros', (req, res) => {
